@@ -1,77 +1,100 @@
 # Space Warriors Game
 
 import random
-damage_list_fighter = [6, 7, 8, 9, 10]
-fighter_damage = random.choice(damage_list_fighter)
-damage_list_defender = [ 4, 5, 6, 7, 8]
-defender_damage = random.choice(damage_list_defender)
+damage_list_fighter = [6, 7, 8, 9, 10, 11, 12]
+damage_list_defender = [3, 4, 5, 6, 7, 8, 9]
 
 class Spacecraft:
     def __init__(self, type, health):
         self.type = type
         self.health = health
+        self.damage_fighter = random.choice(damage_list_fighter)
+        self.damage_defender = random.choice(damage_list_defender)
         self.ship_destroyed = False
-    def __repr__(self):                                             # When a ship type is printed, it's level, type, health and damage will be shown
-        return "This {type} spacecraft has {health} starting hit points "/format(type=self.type, health=self.health)
-    def ship_destroyed(self):                                       # Destroying a ship will flip its status to True
+    def __repr__(self):
+        return "This {type} spacecraft has {health} starting hit points ".format(type=self.type, health=self.health)
+    def ship_destroyed(self):
         self.ship_destroyed = True
-        if self.health != 0:                                        # 'ship_destroyed' should only be called if health is set to 0
-            self.health = 0                                         # if the ship has health left, it gets set to 0
+        if self.health != 0:
+            self.health = 0
         print("Your spacecraft has been destroyed!")
-    def lose_health(self, amount):                                  # Deducts health from spacecraft and prints current health remaining
+    def lose_health(self, amount):
         self.health -= amount
-        if self.health <= 0:                                        # Ensure health does not reach negative and destroys spacecraft
+        if self.health <= 0:
             self.health = 0
             self.ship_destroyed()
         else:
-            print("Your spacecraft now has {health} hit points remaining".format(health=self.health))
+            print("Your spacecraft now has {health} hit points remaining.".format(health=self.health))
+    def lose_health2(self, amount):
+        self.health -= amount
+        if self.health <= 0:
+            self.health = 0
+            self.ship_destroyed()
+        else:
+            print("Your enemy spacecraft now has {health} hit points remaining".format(health=self.health))
     def attack(self, enemy_ship):
-        if self.ship_destroyed:                                     # Checks to make sure ship is not already destroyed
-            print('You cannot attack because your ship is destroyed.')
-        if self.type == "Fighter":
-            print('Your {type} spacecraft attacked an enemy ship for {damage} damage.'.format(type=self.type, damage=random.choice(damage_list_fighter)))
-        if self.type == "Defender":
-            print('Your {type} spacecraft attacked an enemy ship for {damage} damage.'.format(type=self.type, damage=random.choice(damage_list_defender)))
-            enemy_ship.lose_health(self.damage)
+        if self.type == "fighter" and enemy_ship.type == 'defender':
+            print('Your {type} spacecraft attacked the enemy ship for {damage} damage and the enemy {enemy_ship} spacecraft attacked your ship for {damage2} damage.'.format(type=self.type,
+                                                                                                                                                           damage=self.damage_fighter,
+                                                                                                                                                           enemy_ship=enemy_ship.type,
+                                                                                                                                                           damage2=self.damage_defender))
+            self.lose_health(self.damage_defender)
+            enemy_ship.lose_health2(self.damage_fighter)
 
+        #else:
+         #   self.type == 'defender' and enemy_ship.type =='fighter'
+          #  print(
+           #     'Your {type} spacecraft attacked the enemy ship for {damage} damage and the {enemy_ship} attacked your ship for {damage2} damage.'.format(type=self.type,
+            #                                                                                                                                               damage=self.damage_defender,
+             #                                                                                                                                              enemy_ship=enemy_ship.type,
+              #                                                                                                                                             damage2=self.damage_fighter))
+           # self.lose_health(self.damage_defender)
 class Player:
-    def __init__(self, type, name):
-        self.name = name
+    def __init__(self, type):
         self.type = type
         self.current_type = 0
-    def __repr__(self):
-        print('{name} you have selected the {type} spacecraft'.format(name=self.name, type=self.type))
     def attack_enemy_ship(self, enemy_ship):
         my_ship = self.type[self.current_type]
         their_ship = enemy_ship.type[enemy_ship.current_type]
         my_ship.attack(their_ship)
 
-a = Spacecraft("Fighter", 40)
-b = Spacecraft("Defender", 55)
+a = Spacecraft("fighter", 40)
+b = Spacecraft("defender", 50)
+
 print()
 player_name = input('Welcome to Space Warriors! Please enter your name and hit enter. ')
 player_style = input('''
-Welcome ''' + player_name + '''! Space Warriors is a game that allows you to chose between two classes of spacecraft. 
-The first selection is the fighter spacecraft. This ship does remarkable damage to it's enemies but is known to have a 
-weaker defense system. The second selection is the defender spacecraft. This ship does  lesser damage that the fight 
-ship but is known to have a strong defense system. Please choose which spacecraft you'd like to play by entering 
-"Fighter" or "Defender" ''').lower()
+Welcome ''' + player_name + '''! Space Warriors is a game that allows you to chose between two classes of spacecraft. If you select a 
+fighter spacecraft when you will fight again a defender spacecraft. If you choose a defender space craft
+then you will fight a fighter spacecraft. Please select "Fighter" or "Defender" and press enter. ''').lower()
 
-while player_style != 'Fighter' and player_style != 'Defender':
-    player_style = input('Whoops! It looks like you did not choose "Fighter" or "Defender". Try selecting again! ')
+player_selected = []
+computer_selected = []
 
-fighter_selected = []
-defender_selected = []
+if player_style == 'fighter':
+    player_selected.append(a)
+    computer_selected.append(b)
 
-if player_style == 'Fighter':
-    fighter_selected.append(a)
 else:
-    defender_selected.append(b)
+    player_selected.append(b)
+    computer_selected.append(a)
 
-in_game_fighter = Player(fighter_selected, player_name)
-in_game_defender = Player(defender_selected, player_name)
+live_player = Player(player_selected)
+computer_player = Player(computer_selected)
 
-print(in_game_defender)
+print()
+print("Let's get ready to fight! Both ships are launched!")
+print()
+
+live_player.attack_enemy_ship(computer_player)
+
+
+
+
+
+
+
+
 
 
 
