@@ -40,32 +40,33 @@ class Spacecraft:
             print("The enemy spacecraft now has {health} hit points remaining.".format(health=self.health))
 
     def attack(self, enemy_ship):
+        while True:
         #for i in "fighter" and "defender":
-        damage_fighter = random.randrange(6, 10)
-        damage_defender = random.randrange(4, 10)
-        if self.type == "fighter":
+            damage_fighter = random.randrange(6, 10)
+            damage_defender = random.randrange(4, 10)
+            if self.type == "fighter":
                 #time.sleep(2)
-            print('Your {type} spacecraft attacked the enemy ship for {damage} damage!'.format(type=self.type, damage=damage_fighter))
+                print('Your {type} spacecraft attacked the enemy ship for {damage} damage!'.format(type=self.type, damage=damage_fighter))
                 #time.sleep(2)
-            enemy_ship.lose_health_def(damage_fighter)
+                enemy_ship.lose_health_def(damage_fighter)
                 #time.sleep(2)
-            print()
-            print('The enemy {enemy_ship} spacecraft attacked your ship for {damage2} damage!'.format(enemy_ship=enemy_ship.type, damage2=damage_defender))
+                print()
+                print('The enemy {enemy_ship} spacecraft attacked your ship for {damage2} damage!'.format(enemy_ship=enemy_ship.type, damage2=damage_defender))
                 #time.sleep(2)
-            self.lose_health(damage_defender)
-            print()
+                self.lose_health(damage_defender)
+                print()
 
-        elif self.type == "defender":
+            elif self.type == "defender":
                 #time.sleep(2)
-            print('Your {type} spacecraft attacked the enemy ship for {damage} damage!'.format(type=self.type, damage=damage_defender))
+                print('Your {type} spacecraft attacked the enemy ship for {damage} damage!'.format(type=self.type, damage=damage_defender))
                 #time.sleep(2)
-            enemy_ship.lose_health_def(damage_defender)
+                enemy_ship.lose_health_def(damage_defender)
                 #time.sleep(2)
-            print()
-            print('The enemy {enemy_ship} spacecraft attacked your ship for {damage2} damage!'.format(enemy_ship=enemy_ship.type, damage2=damage_fighter))
+                print()
+                print('The enemy {enemy_ship} spacecraft attacked your ship for {damage2} damage!'.format(enemy_ship=enemy_ship.type, damage2=damage_fighter))
                 #time.sleep(2)
-            self.lose_health(damage_fighter)
-            print()
+                self.lose_health(damage_fighter)
+                print()
 
 class Player:
     def __init__(self, type):
