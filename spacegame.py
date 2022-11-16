@@ -14,6 +14,7 @@ class Spacecraft:
         self.ship_destroyed = True
         if self.health != 0:
             self.health = 0
+        print()
         print("Your spacecraft has been destroyed!")
         raise SystemExit
 
@@ -21,7 +22,8 @@ class Spacecraft:
         self.ship_destroyed = True
         if self.health != 0:
             self.health = 0
-        print("Your enemy spacecraft has been destroyed! YOU WON!!")
+        print()
+        print("You destroyed the enemy spacecraft! YOU WON!!")
         raise SystemExit
 
     def lose_health(self, amount):
@@ -29,42 +31,38 @@ class Spacecraft:
         if self.health <= 0:
             self.ship_gone()
         else:
-            print("Your spacecraft now has {health} hit points remaining.".format(health=self.health))
+            print("Your spacecraft now has [{health}] hit points remaining.".format(health=self.health))
 
     def lose_health_def(self, amount):
         self.health -= amount
         if self.health <= 0:
-            self.health = 0
             self.ship_gone_def()
         else:
-            print("The enemy spacecraft now has {health} hit points remaining.".format(health=self.health))
+            print("The enemy spacecraft now has [{health}] hit points remaining.".format(health=self.health))
 
     def attack(self, enemy_ship):
         while True:
-        #for i in "fighter" and "defender":
             damage_fighter = random.randrange(6, 10)
             damage_defender = random.randrange(4, 10)
             if self.type == "fighter":
-                #time.sleep(2)
+                #time.sleep(1.5)
                 print('Your {type} spacecraft attacked the enemy ship for {damage} damage!'.format(type=self.type, damage=damage_fighter))
-                #time.sleep(2)
+                #time.sleep(1.5)
                 enemy_ship.lose_health_def(damage_fighter)
-                #time.sleep(2)
-                print()
+                #time.sleep(1.5)
                 print('The enemy {enemy_ship} spacecraft attacked your ship for {damage2} damage!'.format(enemy_ship=enemy_ship.type, damage2=damage_defender))
-                #time.sleep(2)
+                #time.sleep(1.5)
                 self.lose_health(damage_defender)
                 print()
 
             elif self.type == "defender":
-                #time.sleep(2)
+                #time.sleep(1.5)
                 print('Your {type} spacecraft attacked the enemy ship for {damage} damage!'.format(type=self.type, damage=damage_defender))
-                #time.sleep(2)
+                #time.sleep(1.5)
                 enemy_ship.lose_health_def(damage_defender)
-                #time.sleep(2)
-                print()
+                #time.sleep(1.5)
                 print('The enemy {enemy_ship} spacecraft attacked your ship for {damage2} damage!'.format(enemy_ship=enemy_ship.type, damage2=damage_fighter))
-                #time.sleep(2)
+                #time.sleep(1.5)
                 self.lose_health(damage_fighter)
                 print()
 
@@ -102,11 +100,12 @@ else:
 player_selected = []
 computer_selected = []
 
-player_selected.append(a)
-computer_selected.append(b)
-
-player_selected.append(b)
-computer_selected.append(a)
+if player_style == 'fighter':
+    player_selected.append(a)
+    computer_selected.append(b)
+else:
+    player_selected.append(b)
+    computer_selected.append(a)
 
 live_player = Player(player_selected)
 computer_player = Player(computer_selected)
